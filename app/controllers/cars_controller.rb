@@ -37,14 +37,14 @@ class CarsController < ApplicationController
 
     private
 
-    def car_params
-        params.require(:car).permit(:name, :price, :govnum)
-    end
+        def car_params
+            params.require(:car).permit(:name, :price, :govnum)
+        end
 
-    def find_company company_id
-        Company.find(company_id)
-    end
-    def find_car id
-        Car.select(:id, :name, :price, :govnum).where(id: id)
-    end
+        def find_company company_id
+            Company.find(company_id)
+        end
+        def find_car id
+            Car.select(:id, :name, :price, :govnum).where(id: id)
+        end
 end
