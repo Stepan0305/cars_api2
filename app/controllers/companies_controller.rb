@@ -1,9 +1,13 @@
 class CompaniesController < ApplicationController
+ 
     def index
-        companies = Company.left_outer_joins(:cars)
-                            .select('companies.id, companies.name, companies.iin, companies.turnover, COUNT(cars.id) AS cars_count')
-                            .group('companies.id, companies.name, companies.iin, companies.turnover')
-        render json: companies, status: :ok
+        companies_to_display = Company
+            .left_outer_joins(:cars)
+            .select('companies.id, companies.name, companies.iin, companies.turnover, cars.id as car_id, cars.govnum')
+        render json: {companies:companies_to_display}
+        #meta:pagination_meta(companies_to_display)}
+        #paginate companies_to_display, per_page: 20
+        #render json: companies, status: :ok
     end
 
     def create
@@ -37,7 +41,17 @@ class CompaniesController < ApplicationController
         render json: company, status: 204
     end
 
+    def pagination_meta(object)              
+        {current_page: object.current_page,        
+        next_page: object.next_page,        
+        prev_page: object.prev_page,        
+        total_pages: object.total_pages,        
+        total_count: object.total_count   }        
+    end
+
+    
     private
+
         def com_params
             params.require(:company).permit(:name, :iin, :turnover)
         end
