@@ -3,10 +3,11 @@ class CompaniesController < ApplicationController
     def index
         companies_to_display = Company
             .left_outer_joins(:cars)
-            .select('companies.id, companies.name, companies.iin, companies.turnover, COUNT(cars.id) AS cars_count')
+            .select('companies.id, companies.name, companies.iin, companies.turnover')
             .group('companies.id, companies.name, companies.iin, companies.turnover')
             .page(params[:page]).per(params[:per])
-        render json: companies_to_display
+        render json: companies_to_display, include:
+            [:cars => {:only => [:id, :name, :govnum, :box, :price, :complect]}]
                
         #meta:pagination_meta(companies_to_display)}
         #paginate companies_to_display, per_page: 20
