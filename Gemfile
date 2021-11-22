@@ -22,7 +22,7 @@ gem 'puma', '~> 5.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'kaminari'
-#gem 'pager_api'
+gem 'pager_api'
 gem 'api-pagination'
 gem 'active_model_serializers'
 gem 'pagy'
